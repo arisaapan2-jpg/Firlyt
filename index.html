@@ -1,100 +1,114 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KING F - KEY SYSTEM</title>
+    <title>KING F - ONE FILE EDITION</title>
     <style>
-        body {
-            background-color: #050505;
-            color: #ffffff;
-            font-family: sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #000; }
+        
+        /* Animasi Karakter Jalan Maju Mundur */
+        .char-box { position: fixed; bottom: 30px; width: 100%; height: 120px; z-index: 0; }
+        .character { 
+            width: 100px; position: absolute; 
+            animation: jalan 10s linear infinite; 
         }
-        .container {
-            background: #111;
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid #ffd700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-            text-align: center;
-            width: 90%;
-            max-width: 380px;
+        @keyframes jalan {
+            0% { left: -120px; transform: scaleX(1); }
+            45% { transform: scaleX(1); }
+            50% { left: 100%; transform: scaleX(-1); }
+            95% { transform: scaleX(-1); }
+            100% { left: -120px; transform: scaleX(1); }
         }
-        h1 { color: #ffd700; font-size: 22px; margin-bottom: 10px; text-transform: uppercase; }
-        .status-text { font-size: 13px; color: #aaa; margin-bottom: 20px; }
+
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            color: gold; text-align: center; cursor: pointer;
+        }
+
+        .card {
+            background: rgba(10, 10, 10, 0.9); border: 2px solid gold;
+            padding: 20px; border-radius: 20px; width: 85%; max-width: 350px;
+            margin: 50px auto; text-align: center; box-shadow: 0 0 20px gold;
+            display: none; position: relative; z-index: 101;
+        }
+
         .btn {
-            background-color: #ffd700; color: #000; border: none; padding: 15px;
-            font-size: 15px; font-weight: bold; border-radius: 10px; cursor: pointer;
-            width: 100%; margin-bottom: 10px; transition: 0.2s;
+            background: gold; color: black; border: none; padding: 15px;
+            border-radius: 10px; font-weight: bold; width: 100%; margin: 10px 0;
         }
-        .btn:disabled { background-color: #333; color: #777; cursor: not-allowed; }
-        .key-box {
-            display: none; margin-top: 20px; padding: 15px;
-            background: #1a1a1a; border-radius: 10px; border: 1px dashed #444;
-        }
-        .timer-text { color: #ff4444; font-size: 14px; font-weight: bold; margin-bottom: 10px; }
-        .key-row {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #000; padding: 10px; border-radius: 5px; margin-bottom: 15px;
-        }
-        .key-value { color: #00ff00; font-family: monospace; font-size: 17px; font-weight: bold; }
-        .copy-small { background: #444; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; }
     </style>
 </head>
-<body>
+<body onclick="gas()">
 
-    <div class="container">
-        <h1>KING F HUB</h1>
-        <p id="instruction" class="status-text">Selesaikan 2 Misi untuk mendapatkan key.</p>
+    <div id="overlay">
+        <div>
+            <h1 style="margin:0;">KING F HUB</h1>
+            <p style="letter-spacing: 2px;">[ KLIK UNTUK MASUK ]</p>
+        </div>
+    </div>
 
-        <button id="m1" class="btn" onclick="startMisi(1)">MISI 1 (LINKVERTISE)</button>
-        <button id="m2" class="btn" style="display:none;" onclick="startMisi(2)">MISI 2 (LINKVERTISE)</button>
+    <div class="char-box">
+        <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=Roblox" class="character">
+    </div>
 
-        <div id="key-area" class="key-box">
-            <div id="timer" class="timer-text">EXPIRES IN: 23:59:59</div>
-            <div class="key-row">
-                <span id="key-text" class="key-value">KINGF_PREMIUM_881</span>
-                <button class="copy-small" onclick="copyKey()">COPY</button>
+    <audio id="lagu" loop>
+        <source src="https://files.catbox.moe/s5b7n4.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card" id="main">
+        <h2 style="color:gold; margin:0;">KING F VERIFY</h2>
+        <p style="color:white; font-size:12px;">Kicau Mania Gacor!</p>
+
+        <button id="m1" class="btn" onclick="misi(1)">MISI 1 (LINKVERTISE)</button>
+        <button id="m2" class="btn" style="display:none;" onclick="misi(2)">MISI 2 (LINKVERTISE)</button>
+
+        <div id="keyArea" style="display:none; margin-top:20px;">
+            <p id="timer" style="color:red; font-weight:bold;">EXPIRES: 23:59:59</p>
+            <div style="background:#222; padding:10px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="color:#0f0; font-family:monospace; font-weight:bold;">KINGF_881</span>
+                <button onclick="copy()" style="background:gold; border:none; padding:5px; border-radius:5px; font-size:10px; font-weight:bold;">COPY</button>
             </div>
-            <button class="btn" onclick="copyKey()">TAMBAH WAKTU (24 JAM)</button>
         </div>
     </div>
 
     <script>
-        function startMisi(n) {
-            if (n === 1) {
-                window.open("https://linkvertise.com/misi1-kamu", "_blank"); // GANTI LINK INI
-                document.getElementById("m1").innerText = "MISI 1 DONE ✅";
-                document.getElementById("m1").disabled = true;
-                setTimeout(() => { document.getElementById("m2").style.display = "block"; }, 2000);
-            } else if (n === 2) {
-                window.open("https://linkvertise.com/misi2-kamu", "_blank"); // GANTI LINK INI
-                document.getElementById("m2").innerText = "MISI 2 DONE ✅";
-                document.getElementById("m2").disabled = true;
+        var musik = document.getElementById("lagu");
+
+        function gas() {
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("main").style.display = "block";
+            musik.play();
+        }
+
+        function misi(n) {
+            if(n === 1) {
+                window.open("https://linkvertise.com/your-link-1", "_blank");
+                document.getElementById("m1").style.display = "none";
+                setTimeout(() => { document.getElementById("m2").style.display = "block"; }, 1500);
+            } else {
+                window.open("https://linkvertise.com/your-link-2", "_blank");
+                document.getElementById("m2").style.display = "none";
                 setTimeout(() => {
-                    document.getElementById("key-area").style.display = "block";
-                    startTmr();
-                }, 2000);
+                    document.getElementById("keyArea").style.display = "block";
+                    mulaiTimer();
+                }, 1500);
             }
         }
 
-        function startTmr() {
+        function mulaiTimer() {
             let s = 86400;
             setInterval(() => {
                 s--;
-                let h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
-                document.getElementById("timer").innerText = `EXPIRES IN: ${h}:${m}:${sec}`;
+                let h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60;
+                document.getElementById("timer").innerText = `EXPIRES: ${h}:${m}:${sec}`;
             }, 1000);
         }
 
-        function copyKey() {
-            navigator.clipboard.writeText("KINGF_PREMIUM_881");
-            alert("Key disalin! Balik ke Roblox dan klik Redeem.");
+        function copy() {
+            navigator.clipboard.writeText("KINGF_881");
+            alert("Key Disalin!");
         }
     </script>
 </body>
