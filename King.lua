@@ -1,99 +1,85 @@
 local ScreenGui = Instance.new("ScreenGui")
 local Main = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
 local KeyBox = Instance.new("TextBox")
 local GetKeyBtn = Instance.new("TextButton")
-local CheckBtn = Instance.new("TextButton")
-local UICorner = Instance.new("UICorner")
+local RedeemBtn = Instance.new("TextButton")
 
--- Parent ke CoreGui biar aman
+-- Agar UI tetap ada meski karakter mati
 ScreenGui.Parent = game.CoreGui
-ScreenGui.Name = "KingF_System"
+ScreenGui.ResetOnSpawn = false
 
 -- Kotak Utama
 Main.Parent = ScreenGui
 Main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Main.Position = UDim2.new(0.5, -135, 0.5, -80)
 Main.Size = UDim2.new(0, 270, 0, 160)
+Main.Position = UDim2.new(0.5, -135, 0.5, -80)
 Main.Active = true
-Main.Draggable = true -- Bisa digeser di Infinix kamu
-
-UICorner.CornerRadius = UDim2.new(0, 12)
-UICorner.Parent = Main
+Main.Draggable = true
 
 -- Judul
-local Title = Instance.new("TextLabel")
 Title.Parent = Main
-Title.Size = UDim2.new(1, 0, 0, 45)
+Title.Size = UDim2.new(1, 0, 0, 40)
 Title.BackgroundTransparency = 1
 Title.Text = "KING F PROJECT"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = 20
-Title.Font = Enum.Font.GothamBold
+Title.TextColor3 = Color3.new(1,1,1)
+Title.TextSize = 18
 
--- Kotak Buat Ngetik Key (Redeem)
+-- Kotak Input
 KeyBox.Parent = Main
-KeyBox.Name = "RedeemBox"
-KeyBox.PlaceholderText = "Ketik Key di Sini..."
 KeyBox.Size = UDim2.new(0, 230, 0, 35)
 KeyBox.Position = UDim2.new(0, 20, 0, 55)
-KeyBox.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-KeyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyBox.PlaceholderText = "Ketik Key di Sini..."
+KeyBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+KeyBox.TextColor3 = Color3.new(1,1,1)
 KeyBox.Text = ""
 
--- Tombol Get Key (Kiri)
+-- Tombol Get Key
 GetKeyBtn.Parent = Main
-GetKeyBtn.Text = "Get Key"
 GetKeyBtn.Size = UDim2.new(0, 110, 0, 35)
 GetKeyBtn.Position = UDim2.new(0, 20, 0, 105)
-GetKeyBtn.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
-GetKeyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+GetKeyBtn.Text = "Get Key"
+GetKeyBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+GetKeyBtn.TextColor3 = Color3.new(1,1,1)
 
 GetKeyBtn.MouseButton1Click:Connect(function()
     setclipboard("https://link-hub.net/5342274/e2C9v7I3sTUt")
     print("Link Copied!")
 end)
 
--- Tombol Check Key / Redeem (Kanan)
-CheckBtn.Parent = Main
-CheckBtn.Text = "Redeem"
-CheckBtn.Size = UDim2.new(0, 110, 0, 35)
-CheckBtn.Position = UDim2.new(0, 140, 0, 105)
-CheckBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-CheckBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+-- Tombol Redeem (OTAKNYA DI SINI)
+RedeemBtn.Parent = Main
+RedeemBtn.Size = UDim2.new(0, 110, 0, 35)
+RedeemBtn.Position = UDim2.new(0, 140, 0, 105)
+RedeemBtn.Text = "Redeem"
+RedeemBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+RedeemBtn.TextColor3 = Color3.new(1,1,1)
 
--- Fungsi pas tombol Redeem ditekan
-CheckBtn.MouseButton1Click:Connect(function()
-    local linkRaw = "https://raw.githubusercontent.com/arisaapan2-jpg/Firlyt/refs/heads/main/Keyc.txt"
-    local Success, realKey = pcall(function() return game:HttpGet(linkRaw) end)
+RedeemBtn.MouseButton1Click:Connect(function()
+    -- Mengambil data key terbaru dari GitHub kamu
+    local targetURL = "https://raw.githubusercontent.com/arisaapan2-jpg/Firlyt/refs/heads/main/Keyc.txt"
+    local Success, realKey = pcall(function() return game:HttpGet(targetURL) end)
     
-    if Success and KeyBox.Text == realKey:gsub("%s+", "") then
-        Main.Visible = false -- Sembunyikan menu key
+    -- Membersihkan spasi atau enter yang nggak sengaja terbawa
+    local cleanKey = realKey:gsub("%s+", "")
+
+    if Success and KeyBox.Text == cleanKey then
+        Main.Visible = false -- Tutup menunya
         
-        -- MUNCULIN NOTIFIKASI KEREN
+        -- MUNCULIN NOTIFIKASI SUKSES
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "KINGSIBUYZ12 ON",
-            Text = "Script Ready to Use!",
+            Text = "Akses Diterima! Selamat Beraksi.",
             Duration = 5
         })
-
-        -- BIKIN TOMBOL FLY / ON-OFF MELAYANG
-        local FlyBtn = Instance.new("TextButton")
-        local FlyCorner = Instance.new("UICorner")
         
-        FlyBtn.Parent = ScreenGui
-        FlyBtn.Name = "ToggleBtn"
-        FlyBtn.Size = UDim2.new(0, 60, 0, 60)
-        FlyBtn.Position = UDim2.new(0, 10, 0.5, 0) -- Di samping layar
-        FlyBtn.BackgroundColor3 = Color3.fromRGB(0, 255, 100)
-        FlyBtn.Text = "ON"
-        FlyBtn.Draggable = true -- Bisa digerakin player sesuka hati
-        
-        FlyCorner.CornerRadius = UDim2.new(1, 0) -- Biar bentuknya bulat
-        FlyCorner.Parent = FlyBtn
-
-        print("Key Benar! Tombol ON muncul.")
+        print("LOGIN BERHASIL!")
+        -- Taruh fitur skrip kamu di sini (misal: Fly, Speed, dll)
     else
         KeyBox.Text = ""
-        KeyBox.PlaceholderText = "KEY SALAH/EXPIRED!"
+        KeyBox.PlaceholderText = "KEY SALAH!"
+        print("Login Gagal: Key tidak cocok.")
     end
 end)
+
+print("KING F SCRIPT LOADED!")
