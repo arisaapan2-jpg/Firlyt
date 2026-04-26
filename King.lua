@@ -74,7 +74,70 @@ RedeemBtn.MouseButton1Click:Connect(function()
         })
         
         print("LOGIN BERHASIL!")
-        -- Taruh fitur skrip kamu di sini (misal: Fly, Speed, dll)
+        --        -- 1. EFEK LOADING MAHKOTA & TEKS
+        local Container = Instance.new("Frame")
+        local CrownImg = Instance.new("ImageLabel")
+        local TextLogo = Instance.new("TextLabel")
+
+        Container.Size = UDim2.new(0, 300, 0, 200)
+        Container.Position = UDim2.new(0.5, -150, 0.7, 0)
+        Container.BackgroundTransparency = 1
+        Container.Parent = ScreenGui
+
+        CrownImg.Size = UDim2.new(0, 80, 0, 80)
+        CrownImg.Position = UDim2.new(0.5, -40, 0, 0)
+        CrownImg.Image = "rbxassetid://107140795" -- Ini ID Mahkotanya
+        CrownImg.BackgroundTransparency = 1
+        CrownImg.Parent = Container
+
+        TextLogo.Size = UDim2.new(1, 0, 0, 50)
+        TextLogo.Position = UDim2.new(0, 0, 0, 85)
+        TextLogo.Text = "KING ESENSIAL_SHIBUYZ12ON" -- Nama Loadingnya
+        TextLogo.TextColor3 = Color3.fromRGB(255, 215, 0)
+        TextLogo.TextSize = 18
+        TextLogo.Font = Enum.Font.GothamBold
+        TextLogo.BackgroundTransparency = 1
+        TextLogo.Parent = Container
+
+        task.wait(4) -- Tampil 4 detik terus hilang
+        Container:Destroy()
+
+        -- 2. MENU FLY (BISA DIGERAKIN MANUAL)
+        local FlyGui = Instance.new("ScreenGui")
+        local FlyMain = Instance.new("Frame")
+        local SpeedInput = Instance.new("TextBox")
+        local ToggleFly = Instance.new("TextButton")
+
+        FlyGui.Parent = game.CoreGui
+        FlyMain.Parent = FlyGui
+        FlyMain.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        FlyMain.Size = UDim2.new(0, 150, 0, 120)
+        FlyMain.Position = UDim2.new(0, 20, 0.5, 0)
+        FlyMain.Active = true
+        FlyMain.Draggable = true -- Biar bisa digeser-geser di HP!
+
+        -- Judul Kecil
+        local Label = Instance.new("TextLabel")
+        Label.Parent = FlyMain
+        Label.Size = UDim2.new(1, 0, 0, 30)
+        Label.Text = "FLY MENU"
+        Label.TextColor3 = Color3.new(1,1,1)
+        Label.BackgroundTransparency = 1
+
+        -- Kotak Speed
+        SpeedInput.Parent = FlyMain
+        SpeedInput.Size = UDim2.new(0, 120, 0, 30)
+        SpeedInput.Position = UDim2.new(0, 15, 0, 40)
+        SpeedInput.PlaceholderText = "Speed..."
+        SpeedInput.Text = "50"
+
+        -- Tombol ON/OFF
+        ToggleFly.Parent = FlyMain
+        ToggleFly.Size = UDim2.new(0, 120, 0, 30)
+        ToggleFly.Position = UDim2.new(0, 15, 0, 80)
+        ToggleFly.Text = "FLY: OFF"
+        ToggleFly.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+
     else
         KeyBox.Text = ""
         KeyBox.PlaceholderText = "KEY SALAH!"
