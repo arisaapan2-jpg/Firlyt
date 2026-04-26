@@ -1,114 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KING F - ONE FILE EDITION</title>
+    <title>S.id/mulaihari</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; background: #000; }
-        
-        /* Animasi Karakter Jalan Maju Mundur */
-        .char-box { position: fixed; bottom: 30px; width: 100%; height: 120px; z-index: 0; }
-        .character { 
-            width: 100px; position: absolute; 
-            animation: jalan 10s linear infinite; 
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: rgba(255, 255, 255, 0.1);
         }
-        @keyframes jalan {
-            0% { left: -120px; transform: scaleX(1); }
-            45% { transform: scaleX(1); }
-            50% { left: 100%; transform: scaleX(-1); }
-            95% { transform: scaleX(-1); }
-            100% { left: -120px; transform: scaleX(1); }
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-color) url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') no-repeat center center fixed;
+            background-size: cover;
+            height: 100%; display: flex; align-items: center; justify-content: center;
         }
-
-        #overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 100;
-            display: flex; align-items: center; justify-content: center;
-            color: gold; text-align: center; cursor: pointer;
+        /* Overlay biar teks kebaca */
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4); z-index: 0;
         }
-
         .card {
-            background: rgba(10, 10, 10, 0.9); border: 2px solid gold;
-            padding: 20px; border-radius: 20px; width: 85%; max-width: 350px;
-            margin: 50px auto; text-align: center; box-shadow: 0 0 20px gold;
-            display: none; position: relative; z-index: 101;
+            position: relative; z-index: 1;
+            background: var(--card-bg); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px; padding: 25px;
+            width: 85%; max-width: 350px; text-align: center; color: white;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
-
-        .btn {
-            background: gold; color: black; border: none; padding: 15px;
-            border-radius: 10px; font-weight: bold; width: 100%; margin: 10px 0;
+        .stiker { width: 100px; height: 100px; margin-bottom: 15px; }
+        h2 { font-size: 1.2rem; margin: 10px 0; }
+        p { font-size: 0.95rem; opacity: 0.9; line-height: 1.4; }
+        .btn-container { display: flex; justify-content: space-around; margin-top: 20px; }
+        button {
+            padding: 10px 25px; border-radius: 10px; border: none;
+            cursor: pointer; font-weight: 600; transition: 0.2s;
         }
+        .btn-yes { background: #fff; color: #000; }
+        .btn-no { background: rgba(255,255,255,0.2); color: #fff; position: relative; }
+        #timer { font-weight: bold; color: #ffeb3b; }
     </style>
 </head>
-<body onclick="gas()">
+<body>
 
-    <div id="overlay">
-        <div>
-            <h1 style="margin:0;">KING F HUB</h1>
-            <p style="letter-spacing: 2px;">[ KLIK UNTUK MASUK ]</p>
-        </div>
-    </div>
-
-    <div class="char-box">
-        <img src="https://api.dicebear.com/7.x/pixel-art/svg?seed=Roblox" class="character">
-    </div>
-
-    <audio id="lagu" loop>
-        <source src="https://files.catbox.moe/s5b7n4.mp3" type="audio/mpeg">
-    </audio>
-
-    <div class="card" id="main">
-        <h2 style="color:gold; margin:0;">KING F VERIFY</h2>
-        <p style="color:white; font-size:12px;">Kicau Mania Gacor!</p>
-
-        <button id="m1" class="btn" onclick="misi(1)">MISI 1 (LINKVERTISE)</button>
-        <button id="m2" class="btn" style="display:none;" onclick="misi(2)">MISI 2 (LINKVERTISE)</button>
-
-        <div id="keyArea" style="display:none; margin-top:20px;">
-            <p id="timer" style="color:red; font-weight:bold;">EXPIRES: 23:59:59</p>
-            <div style="background:#222; padding:10px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
-                <span style="color:#0f0; font-family:monospace; font-weight:bold;">KINGF_881</span>
-                <button onclick="copy()" style="background:gold; border:none; padding:5px; border-radius:5px; font-size:10px; font-weight:bold;">COPY</button>
-            </div>
+    <div class="card" id="mainCard">
+        <img id="imageDisplay" src="https://feeldreams.github.io/pandakuning.gif" class="stiker">
+        <h2 id="titleDisplay">Jumat, 24 April 💌</h2>
+        <p id="textDisplay">Selamat Hari Mantan Sedunia / Ex Day mantanku tersayanggg, termanisss, terlucuuu, terbaikk seduniaaa 🫣🫵 <br><br><b>BTW, BALIKAN YUKK!</b> 😂</p>
+        
+        <div class="btn-container" id="btnGroup">
+            <button class="btn-yes" onclick="mulaiAksi()">Yukk</button>
+            <button class="btn-no" id="btnNo" onmouseover="lari()">Gamau</button>
         </div>
     </div>
 
     <script>
-        var musik = document.getElementById("lagu");
-
-        function gas() {
-            document.getElementById("overlay").style.display = "none";
-            document.getElementById("main").style.display = "block";
-            musik.play();
+        function lari() {
+            const btn = document.getElementById('btnNo');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
         }
 
-        function misi(n) {
-            if(n === 1) {
-                window.open("https://linkvertise.com/your-link-1", "_blank");
-                document.getElementById("m1").style.display = "none";
-                setTimeout(() => { document.getElementById("m2").style.display = "block"; }, 1500);
-            } else {
-                window.open("https://linkvertise.com/your-link-2", "_blank");
-                document.getElementById("m2").style.display = "none";
-                setTimeout(() => {
-                    document.getElementById("keyArea").style.display = "block";
-                    mulaiTimer();
-                }, 1500);
+        async function mulaiAksi() {
+            const title = document.getElementById('titleDisplay');
+            const text = document.getElementById('textDisplay');
+            const btnGroup = document.getElementById('btnGroup');
+            const img = document.getElementById('imageDisplay');
+
+            // 1. Ganti Teks awal
+            btnGroup.style.display = 'none';
+            title.innerHTML = "Yeaayy Kita Balikan! 🥰❤️";
+            img.src = "https://feeldreams.github.io/mikir.gif";
+            
+            // 2. Hitung Mundur (Countdown)
+            let count = 5;
+            while (count >= 0) {
+                text.innerHTML = `Eitss.. 🏃 Tapi, dalam waktu <span id="timer">${count}</span> detik, Kita PUTUS lagi yaaa~ 😂`;
+                await new Promise(r => setTimeout(r, 1000));
+                count--;
             }
-        }
 
-        function mulaiTimer() {
-            let s = 86400;
-            setInterval(() => {
-                s--;
-                let h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60;
-                document.getElementById("timer").innerText = `EXPIRES: ${h}:${m}:${sec}`;
-            }, 1000);
-        }
-
-        function copy() {
-            navigator.clipboard.writeText("KINGF_881");
-            alert("Key Disalin!");
+            // 3. Tapi Boong
+            img.src = "https://feeldreams.github.io/ngumpet.gif";
+            title.innerHTML = "Tapi Boongg Wkwk! 🤪";
+            text.innerHTML = "Mulai hari ini, kita beneran balikan yaa 🥰 <br><br><b>ILY So Much Mantanku, Eh.. Pacarkuu 👀🫵</b>";
         }
     </script>
 </body>
