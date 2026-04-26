@@ -1,54 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KING F - VERIFICATION</title>
+    <title>KING F - KEY SYSTEM</title>
     <style>
-        body { background: #0a0a0a; color: white; font-family: sans-serif; text-align: center; padding-top: 50px; }
-        .card { border: 1px solid #ffd700; background: #111; display: inline-block; padding: 20px; border-radius: 15px; width: 85%; max-width: 400px; }
-        .btn { background: gold; color: black; border: none; padding: 15px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin: 10px 0; font-size: 16px; }
-        .btn-disabled { background: #333; color: #777; cursor: not-allowed; }
-        .key-box { display: none; background: #1a1a1a; padding: 15px; border: 1px dashed #444; color: #0f0; font-weight: bold; font-size: 20px; margin-top: 20px; }
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #111;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 380px;
+        }
+        h1 { color: #ffd700; font-size: 22px; margin-bottom: 10px; text-transform: uppercase; }
+        .status-text { font-size: 13px; color: #aaa; margin-bottom: 20px; }
+        .btn {
+            background-color: #ffd700; color: #000; border: none; padding: 15px;
+            font-size: 15px; font-weight: bold; border-radius: 10px; cursor: pointer;
+            width: 100%; margin-bottom: 10px; transition: 0.2s;
+        }
+        .btn:disabled { background-color: #333; color: #777; cursor: not-allowed; }
+        .key-box {
+            display: none; margin-top: 20px; padding: 15px;
+            background: #1a1a1a; border-radius: 10px; border: 1px dashed #444;
+        }
+        .timer-text { color: #ff4444; font-size: 14px; font-weight: bold; margin-bottom: 10px; }
+        .key-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #000; padding: 10px; border-radius: 5px; margin-bottom: 15px;
+        }
+        .key-value { color: #00ff00; font-family: monospace; font-size: 17px; font-weight: bold; }
+        .copy-small { background: #444; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2 style="color:gold">KING F VERIFICATION</h2>
-        <p id="status">Selesaikan 2 Misi untuk ambil Key!</p>
 
-        <button id="misi1" class="btn" onclick="jalankanMisi(1)">MISI 1 (LINKVERTISE)</button>
-        
-        <button id="misi2" class="btn btn-disabled" disabled onclick="jalankanMisi(2)">MISI 2 (LINKVERTISE)</button>
+    <div class="container">
+        <h1>KING F HUB</h1>
+        <p id="instruction" class="status-text">Selesaikan 2 Misi untuk mendapatkan key.</p>
 
-        <div id="keyArea" class="key-box">
-            KEY: <span id="theKey">KINGF_PREMIUM_881</span>
-            <button class="btn" style="margin-top:10px" onclick="copy()">COPY & TAMBAH WAKTU</button>
+        <button id="m1" class="btn" onclick="startMisi(1)">MISI 1 (LINKVERTISE)</button>
+        <button id="m2" class="btn" style="display:none;" onclick="startMisi(2)">MISI 2 (LINKVERTISE)</button>
+
+        <div id="key-area" class="key-box">
+            <div id="timer" class="timer-text">EXPIRES IN: 23:59:59</div>
+            <div class="key-row">
+                <span id="key-text" class="key-value">KINGF_PREMIUM_881</span>
+                <button class="copy-small" onclick="copyKey()">COPY</button>
+            </div>
+            <button class="btn" onclick="copyKey()">TAMBAH WAKTU (24 JAM)</button>
         </div>
     </div>
 
     <script>
-        let step = 0;
-
-        function jalankanMisi(n) {
+        function startMisi(n) {
             if (n === 1) {
-                window.open("https://linkvertise-misi1-kamu.com", "_blank");
-                document.getElementById("misi1").innerText = "MISI 1 DONE ✅";
-                document.getElementById("misi1").classList.add("btn-disabled");
-                document.getElementById("misi2").classList.remove("btn-disabled");
-                document.getElementById("misi2").disabled = false;
-                document.getElementById("status").innerText = "Satu misi lagi!";
+                window.open("https://linkvertise.com/misi1-kamu", "_blank"); // GANTI LINK INI
+                document.getElementById("m1").innerText = "MISI 1 DONE ✅";
+                document.getElementById("m1").disabled = true;
+                setTimeout(() => { document.getElementById("m2").style.display = "block"; }, 2000);
             } else if (n === 2) {
-                window.open("https://linkvertise-misi2-kamu.com", "_blank");
-                document.getElementById("misi2").innerText = "MISI 2 DONE ✅";
-                document.getElementById("misi2").classList.add("btn-disabled");
-                document.getElementById("keyArea").style.display = "block";
-                document.getElementById("status").innerText = "SEMUA MISI SELESAI!";
+                window.open("https://linkvertise.com/misi2-kamu", "_blank"); // GANTI LINK INI
+                document.getElementById("m2").innerText = "MISI 2 DONE ✅";
+                document.getElementById("m2").disabled = true;
+                setTimeout(() => {
+                    document.getElementById("key-area").style.display = "block";
+                    startTmr();
+                }, 2000);
             }
         }
 
-        function copy() {
-            navigator.clipboard.writeText(document.getElementById('theKey').innerText);
-            alert("Key Berhasil Disalin! Silakan Redeem di Executor.");
+        function startTmr() {
+            let s = 86400;
+            setInterval(() => {
+                s--;
+                let h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
+                document.getElementById("timer").innerText = `EXPIRES IN: ${h}:${m}:${sec}`;
+            }, 1000);
+        }
+
+        function copyKey() {
+            navigator.clipboard.writeText("KINGF_PREMIUM_881");
+            alert("Key disalin! Balik ke Roblox dan klik Redeem.");
         }
     </script>
 </body>
