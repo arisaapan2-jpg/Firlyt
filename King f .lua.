@@ -1,0 +1,21 @@
+-- [[ KING F PROJECT - UJI COBA HOSTING ]] --
+
+-- Notifikasi saat skrip berhasil di-load
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "KING F LOADED!";
+    Text = "Skrip Mentahan Berhasil Berjalan!";
+    Duration = 5;
+})
+
+print("--- King F Project is Active ---")
+
+-- Fitur Anti-AFK Sederhana
+local VirtualUser = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:Connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+    print("Anti-AFK: Mencegah karakter diskonek!")
+end)
+
+-- Fitur Visual (Ubah angka uang di layar, ganti 'Uang' dengan nama variabel gamemu)
+-- game.Players.LocalPlayer.PlayerGui.MainGui.Money.Text = "999,999,999"
