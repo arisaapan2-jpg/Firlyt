@@ -74,69 +74,89 @@ RedeemBtn.MouseButton1Click:Connect(function()
         })
         
         print("LOGIN BERHASIL!")
-        --        -- 1. EFEK LOADING MAHKOTA & TEKS
+        --        -- [[ TAMPILAN PREMIUM KING F - THUNDERZ STYLE ]] --
+        local KingF_Gui = Instance.new("ScreenGui")
+        local MainFrame = Instance.new("Frame")
+        local Sidebar = Instance.new("Frame")
         local Container = Instance.new("Frame")
-        local CrownImg = Instance.new("ImageLabel")
-        local TextLogo = Instance.new("TextLabel")
+        local UIStroke = Instance.new("UIStroke")
+        local UICorner = Instance.new("UICorner")
 
-        Container.Size = UDim2.new(0, 300, 0, 200)
-        Container.Position = UDim2.new(0.5, -150, 0.7, 0)
+        KingF_Gui.Parent = game.CoreGui
+        KingF_Gui.Name = "KingF_ThunderZ"
+
+        -- Frame Utama (Background Transparan Gelap)
+        MainFrame.Name = "MainFrame"
+        MainFrame.Parent = KingF_Gui
+        MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+        MainFrame.BackgroundTransparency = 0.1
+        MainFrame.Position = UDim2.new(0.5, -200, 0.5, -125)
+        MainFrame.Size = UDim2.new(0, 400, 0, 250)
+        MainFrame.Active = true
+        MainFrame.Draggable = true -- Bisa digeser manual di HP
+
+        UICorner.CornerRadius = UDim2.new(0, 10)
+        UICorner.Parent = MainFrame
+
+        UIStroke.Thickness = 2
+        UIStroke.Color = Color3.fromRGB(40, 40, 45)
+        UIStroke.Parent = MainFrame
+
+        -- Sidebar (Menu Samping)
+        Sidebar.Name = "Sidebar"
+        Sidebar.Parent = MainFrame
+        Sidebar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+        Sidebar.Size = UDim2.new(0, 100, 1, 0)
+        
+        local SidebarCorner = Instance.new("UICorner", Sidebar)
+        SidebarCorner.CornerRadius = UDim2.new(0, 10)
+
+        -- Judul di Sidebar
+        local Logo = Instance.new("TextLabel")
+        Logo.Parent = Sidebar
+        Logo.Size = UDim2.new(1, 0, 0, 40)
+        Logo.Text = "KING F"
+        Logo.TextColor3 = Color3.fromRGB(255, 215, 0) -- Warna Emas
+        Logo.Font = Enum.Font.GothamBold
+        Logo.TextSize = 16
+        Logo.BackgroundTransparency = 1
+
+        -- Area Isi Fitur (Container)
+        Container.Name = "Container"
+        Container.Parent = MainFrame
+        Container.Position = UDim2.new(0, 110, 0, 10)
+        Container.Size = UDim2.new(1, -120, 1, -20)
         Container.BackgroundTransparency = 1
-        Container.Parent = ScreenGui
 
-        CrownImg.Size = UDim2.new(0, 80, 0, 80)
-        CrownImg.Position = UDim2.new(0.5, -40, 0, 0)
-        CrownImg.Image = "rbxassetid://107140795" -- Ini ID Mahkotanya
-        CrownImg.BackgroundTransparency = 1
-        CrownImg.Parent = Container
+        -- Fungsi bikin tombol di Sidebar biar Rapi
+        local function AddTab(name, pos)
+            local btn = Instance.new("TextButton")
+            btn.Parent = Sidebar
+            btn.Size = UDim2.new(1, -10, 0, 30)
+            btn.Position = UDim2.new(0, 5, 0, pos)
+            btn.Text = name
+            btn.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+            btn.TextColor3 = Color3.new(1, 1, 1)
+            btn.Font = Enum.Font.Gotham
+            btn.TextSize = 12
+            Instance.new("UICorner", btn).CornerRadius = UDim2.new(0, 5)
+            return btn
+        end
 
-        TextLogo.Size = UDim2.new(1, 0, 0, 50)
-        TextLogo.Position = UDim2.new(0, 0, 0, 85)
-        TextLogo.Text = "KING ESENSIAL_SHIBUYZ12ON" -- Nama Loadingnya
-        TextLogo.TextColor3 = Color3.fromRGB(255, 215, 0)
-        TextLogo.TextSize = 18
-        TextLogo.Font = Enum.Font.GothamBold
-        TextLogo.BackgroundTransparency = 1
-        TextLogo.Parent = Container
+        local MainTab = AddTab("Main", 50)
+        local EggTab = AddTab("Egg View", 85)
+        local MiscTab = AddTab("Misc", 120)
 
-        task.wait(4) -- Tampil 4 detik terus hilang
-        Container:Destroy()
-
-        -- 2. MENU FLY (BISA DIGERAKIN MANUAL)
-        local FlyGui = Instance.new("ScreenGui")
-        local FlyMain = Instance.new("Frame")
-        local SpeedInput = Instance.new("TextBox")
-        local ToggleFly = Instance.new("TextButton")
-
-        FlyGui.Parent = game.CoreGui
-        FlyMain.Parent = FlyGui
-        FlyMain.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        FlyMain.Size = UDim2.new(0, 150, 0, 120)
-        FlyMain.Position = UDim2.new(0, 20, 0.5, 0)
-        FlyMain.Active = true
-        FlyMain.Draggable = true -- Biar bisa digeser-geser di HP!
-
-        -- Judul Kecil
-        local Label = Instance.new("TextLabel")
-        Label.Parent = FlyMain
-        Label.Size = UDim2.new(1, 0, 0, 30)
-        Label.Text = "FLY MENU"
-        Label.TextColor3 = Color3.new(1,1,1)
-        Label.BackgroundTransparency = 1
-
-        -- Kotak Speed
-        SpeedInput.Parent = FlyMain
-        SpeedInput.Size = UDim2.new(0, 120, 0, 30)
-        SpeedInput.Position = UDim2.new(0, 15, 0, 40)
-        SpeedInput.PlaceholderText = "Speed..."
-        SpeedInput.Text = "50"
-
-        -- Tombol ON/OFF
-        ToggleFly.Parent = FlyMain
-        ToggleFly.Size = UDim2.new(0, 120, 0, 30)
-        ToggleFly.Position = UDim2.new(0, 15, 0, 80)
-        ToggleFly.Text = "FLY: OFF"
-        ToggleFly.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+        -- [[ CONTOH ISI FITUR (FLY) ]] --
+        local FlyBtn = Instance.new("TextButton")
+        FlyBtn.Parent = Container
+        FlyBtn.Size = UDim2.new(1, 0, 0, 35)
+        FlyBtn.Text = "Fly: OFF"
+        FlyBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+        FlyBtn.TextColor3 = Color3.new(1, 1, 1)
+        Instance.new("UICorner", FlyBtn)
+        
+        -- (Logika Fly manual kamu tinggal ditaruh di sini)
 
     else
         KeyBox.Text = ""
