@@ -1,0 +1,86 @@
+local ScreenGui = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local KeyBox = Instance.new("TextBox")
+local GetKeyBtn = Instance.new("TextButton")
+local CheckBtn = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+
+-- Tampilan UI King F
+ScreenGui.Parent = game.CoreGui
+Main.Name = "KingF_KeySystem"
+Main.Parent = ScreenGui
+Main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Main.Position = UDim2.new(0.5, -135, 0.5, -80)
+Main.Size = UDim2.new(0, 270, 0, 160)
+Main.Active = true
+Main.Draggable = true
+
+UICorner.CornerRadius = UDim2.new(0, 10)
+UICorner.Parent = Main
+
+-- Judul
+local Title = Instance.new("TextLabel")
+Title.Parent = Main
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.Text = "KING F PROJECT - KEY"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 18
+Title.Font = Enum.Font.GothamBold
+
+-- Kotak Input
+KeyBox.Parent = Main
+KeyBox.PlaceholderText = "Input Key Here..."
+KeyBox.Size = UDim2.new(0, 230, 0, 35)
+KeyBox.Position = UDim2.new(0, 20, 0, 55)
+KeyBox.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+KeyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+-- Tombol Ambil Key (Linkvertise Kamu)
+GetKeyBtn.Parent = Main
+GetKeyBtn.Text = "Get Key"
+GetKeyBtn.Size = UDim2.new(0, 110, 0, 35)
+GetKeyBtn.Position = UDim2.new(0, 20, 0, 105)
+GetKeyBtn.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+GetKeyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+GetKeyBtn.MouseButton1Click:Connect(function()
+    -- Linkvertise yang baru kamu buat tadi!
+    setclipboard("https://link-hub.net/5342274/e2C9v7I3sTUt")
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Link Copied!",
+        Text = "Silahkan tempel di browser kamu.",
+        Duration = 5
+    })
+end)
+
+-- Tombol Check (Verifikasi Otomatis)
+CheckBtn.Parent = Main
+CheckBtn.Text = "Check Key"
+CheckBtn.Size = UDim2.new(0, 110, 0, 35)
+CheckBtn.Position = UDim2.new(0, 140, 0, 105)
+CheckBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+CheckBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+CheckBtn.MouseButton1Click:Connect(function()
+    -- Link Raw Keyc.txt kamu
+    local LinkRaw = "https://raw.githubusercontent.com/arisaapan2-jpg/Firlyt/refs/heads/main/Keyc.txt"
+    local KeyBenar = game:HttpGet(LinkRaw):gsub("%s+", "") 
+
+    if KeyBox.Text == KeyBenar then
+        Main:Destroy()
+        
+        -- NOTIFIKASI BERHASIL
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "ACCESS GRANTED!",
+            Text = "Selamat menggunakan KING F Project!",
+            Duration = 5
+        })
+
+        -- [[ TEMPEL SKRIP UTAMA ANTI-AFK / VISUAL DI BAWAH SINI ]] --
+        print("Skrip Aktif!")
+        
+    else
+        KeyBox.Text = ""
+        KeyBox.PlaceholderText = "KEY SALAH / EXPIRED!"
+    end
+end)
